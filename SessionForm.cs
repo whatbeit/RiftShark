@@ -188,6 +188,7 @@ namespace RiftShark
             mPacketView.Nodes.Add(node);
 
             mPacketView.EndUpdate();
+            mPacketView.AdjustScrollbars();
         }
 
         public sealed class FieldNodeTag
@@ -542,6 +543,7 @@ namespace RiftShark
             {
                 AddPacket(packet, true);
             }
+            mPacketView.AdjustScrollbars();
         }
 
         private void mStatusStrip_Resize(object pSender, EventArgs pArgs)

@@ -96,7 +96,7 @@
     <PacketDescription>
       <Outbound>false</Outbound>
       <Opcode>3600</Opcode>
-      <Name />
+      <Name>Another Cache Reference?</Name>
       <Ignore>false</Ignore>
       <Fields>
         <PacketField>

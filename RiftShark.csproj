@@ -39,9 +39,6 @@
     <ApplicationIcon>Shark.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lyquidity.Controls.ExtendedListViews">
-      <HintPath>.\Lyquidity.Controls.ExtendedListViews.dll</HintPath>
-    </Reference>
     <Reference Include="ManagedOpenSsl">
       <HintPath>.\ManagedOpenSsl.dll</HintPath>
     </Reference>
@@ -157,6 +154,16 @@
     <Compile Include="Docking\Win32\Enums.cs" />
     <Compile Include="Docking\Win32\NativeMethods.cs" />
     <Compile Include="EPacketFieldType.cs" />
+    <Compile Include="ExtendedListViews\ContainerListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ExtendedListViews\Helpers\StringTools.cs" />
+    <Compile Include="ExtendedListViews\HelperTools.cs" />
+    <Compile Include="ExtendedListViews\IParentChildList.cs" />
+    <Compile Include="ExtendedListViews\TreeListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ExtendedListViews\uxTheme\Wrapper.cs" />
     <Compile Include="HintByteArray.cs" />
     <Compile Include="HintRaw4Bytes.cs" />
     <Compile Include="HintRaw8Bytes.cs" />
@@ -243,6 +250,12 @@
     <Compile Include="SharpPcap\Version.cs" />
     <EmbeddedResource Include="Docking\Resources.resx" />
     <EmbeddedResource Include="Docking\Strings.resx" />
+    <EmbeddedResource Include="ExtendedListViews\ContainerListView.resx">
+      <DependentUpon>ContainerListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExtendedListViews\TreeListView.resx">
+      <DependentUpon>TreeListView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -296,6 +309,11 @@
     <Content Include="Docking\Resources\DockPane_Dock.bmp" />
     <Content Include="Docking\Resources\DockPane_Option.bmp" />
     <Content Include="Docking\Resources\DockPane_OptionOverflow.bmp" />
+    <EmbeddedResource Include="ExtendedListViews\Resources\collsplit.bmp" />
+    <EmbeddedResource Include="ExtendedListViews\Resources\listview.bmp" />
+    <EmbeddedResource Include="ExtendedListViews\Resources\treeview.bmp" />
+    <EmbeddedResource Include="ExtendedListViews\Resources\tv_minus.bmp" />
+    <EmbeddedResource Include="ExtendedListViews\Resources\tv_plus.bmp" />
     <Content Include="libeay32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
