@@ -271,7 +271,7 @@ namespace RiftShark
                 case ERiftPacketFieldType.Signed7BitEncoded: pNode.SubItems.Add(pValue.Long.ToString()); break;
                 case ERiftPacketFieldType.Raw4Bytes: pNode.SubItems.Add(BitConverter.ToString(pValue.Bytes).Replace('-', ' ')); break;
                 case ERiftPacketFieldType.Raw8Bytes: pNode.SubItems.Add(BitConverter.ToString(pValue.Bytes).Replace('-', ' ')); break;
-                case ERiftPacketFieldType.ByteArray: pNode.SubItems.Add(BitConverter.ToString(pValue.Bytes).Replace('-', ' ')); break;
+                case ERiftPacketFieldType.ByteArray: pNode.SubItems.Add(BitConverter.ToString(pValue.Bytes, 0, Math.Min(8, pValue.Bytes.Length)).Replace('-', ' ') + (pValue.Bytes.Length > 8 ? " ..." : "")); break;
                 case ERiftPacketFieldType.Packet:
                     {
                         pNode.SubItems.Add("0x" + pValue.Packet.Opcode.ToString("X8"));

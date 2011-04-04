@@ -68,7 +68,6 @@ namespace Lyquidity.Controls.ExtendedListViews
     /// controls.
     /// </summary>
     [ToolboxItem(true)]
-    [ToolboxBitmap(typeof(Lyquidity.Controls.ExtendedListViews.TreeListView), "Resources.treeview.bmp")]
     [DefaultEvent("SelectedItemChanged")]
     public class TreeListView : Lyquidity.Controls.ExtendedListViews.ContainerListView
     {
@@ -291,13 +290,12 @@ namespace Lyquidity.Controls.ExtendedListViews
 
                     try
                     {
-                        if (pos + itemheight + ((hscrollBar.Visible) ? hscrollBar.Height : 0) > r.Top + r.Height)
+                        if (pos + itemheight + ((hscrollBar.Visible) ? hscrollBar.Height : 0) >= r.Top + r.Height)
                         {
                             pos = Math.Abs((r.Top + r.Height) - (pos + itemheight + ((hscrollBar.Visible) ? hscrollBar.Height : 0)));
-                            pos = (pos > itemheight / 2) ? itemheight : 0;
-                            vscrollBar.Value += pos;
+                            vscrollBar.Value += Math.Abs(r.Top + headerBuffer + pos);
                         }
-                        else if (pos < r.Top + headerBuffer + 2)
+                        else if (pos < r.Top + headerBuffer)
                         {
                             vscrollBar.Value -= Math.Abs(r.Top + headerBuffer - pos);
                         }
@@ -615,6 +613,10 @@ namespace Lyquidity.Controls.ExtendedListViews
                     if (cnode != null)
                     {
                         cnode.Toggle();
+                        curNode = cnode;
+                        firstSelectedNode = cnode;
+                        firstSelectedNode.Selected = true;
+                        firstSelectedNode.Focused = true;
                         AdjustScrollbars();
                     }
                     else
@@ -699,7 +701,6 @@ namespace Lyquidity.Controls.ExtendedListViews
                         firstSelectedNode = curNode;
                         firstSelectedNode.Selected = true;
                         firstSelectedNode.Focused = true;
-                        SelectedNodes.Add(curNode);
                     }
                 }
 
@@ -720,17 +721,23 @@ namespace Lyquidity.Controls.ExtendedListViews
             if (!curNode.IsExpanded)
             {
                 TreeListNode chain = curNode.Parent;
+                Stack s = new Stack();
                 while (chain != null)
                 {
-                    if (!chain.IsExpanded) chain.Expand();
+                    s.Push(chain);
                     chain = chain.Parent;
+                }
+                while (s.Count != 0)
+                {
+                    ((TreeListNode)s.Pop()).Expand();
                 }
                 AdjustScrollbars();
             }
+
+            this.Focus();
             firstSelectedNode = curNode;
             firstSelectedNode.Selected = true;
             firstSelectedNode.Focused = true;
-            SelectedNodes.Add(curNode);
 
             ShowSelectedItems();
             OnSelectedItemChanged();
@@ -852,7 +859,7 @@ namespace Lyquidity.Controls.ExtendedListViews
                 vscrollBar.Left = this.ClientRectangle.Left + this.ClientRectangle.Width - vscrollBar.Width - 2;
                 vscrollBar.Top = this.ClientRectangle.Top + headerBuffer + 2;
                 vscrollBar.Height = this.ClientRectangle.Height - hsize - headerBuffer - 4;
-                // vscrollBar.Maximum = allRowsHeight - ((vscrollBar.Height > allRowsHeight) ? 0 : vscrollBar.Height);
+                //vscrollBar.Maximum = allRowsHeight - ((vscrollBar.Height > allRowsHeight) ? 0 : vscrollBar.Height);
                 vscrollBar.SmallChange = itemheight;
                 vscrollBar.Maximum = allRowsHeight;
                 vscrollBar.LargeChange = (this.ClientRectangle.Height - headerBuffer - hsize - 4 > 0 ? this.ClientRectangle.Height - headerBuffer - hsize - 4 : 0);
@@ -1560,6 +1567,8 @@ namespace Lyquidity.Controls.ExtendedListViews
         #region Methods
         public void Collapse()
         {
+            if (!expanded)
+                return;
             expanded = false;
 
             // Update counts as the number of sub nodes and their respective
@@ -1580,6 +1589,8 @@ namespace Lyquidity.Controls.ExtendedListViews
         }
         public void Expand()
         {
+            if (expanded)
+                return;
             expanded = true;
 
             // Update counts as the number of sub nodes and their respective
@@ -1884,7 +1895,6 @@ namespace Lyquidity.Controls.ExtendedListViews
             // ...up the chain
             if (this.parent == null) return;
             this.parent.PropagateNodeChange(iTotalCountDelta, iDescendentsVisibleCountDelta, iExpandedCount);
-
         }
 
         #endregion

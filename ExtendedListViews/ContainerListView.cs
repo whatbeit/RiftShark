@@ -765,7 +765,6 @@ namespace Lyquidity.Controls.ExtendedListViews
 
 	[DefaultProperty("Items")]
 	[ToolboxItem(true)]
-	[ToolboxBitmap(typeof(ContainerListView), "Resources.listview.bmp")]
 	public class ContainerListView: Control
 	{
 		#region Events
@@ -1460,13 +1459,19 @@ namespace Lyquidity.Controls.ExtendedListViews
 		{
 			Rectangle r = ClientRectangle;
 			Graphics g = e.Graphics;
+            Region originalClip = new Region(g.Clip.GetRegionData());
 
 			DrawBackground(g, r);
+            g.Clip = new Region(originalClip.GetRegionData());
 			DrawRows(g, r);
-			DrawHeaders(g, r);
-			DrawExtra(g, r);			
-			DrawBorder(g, r);			
-		}
+            g.Clip = new Region(originalClip.GetRegionData());
+            DrawHeaders(g, r);
+            g.Clip = new Region(originalClip.GetRegionData());
+            DrawExtra(g, r);
+            g.Clip = new Region(originalClip.GetRegionData());
+            DrawBorder(g, r);
+            g.Clip = new Region(originalClip.GetRegionData());
+        }
 
 		protected override void OnResize(EventArgs e)
 		{
@@ -2312,7 +2317,6 @@ namespace Lyquidity.Controls.ExtendedListViews
 				return;
 			}
 
-			Rectangle rect = this.ClientRectangle;
 			if (borderstyle == BorderStyle.FixedSingle)
 			{
 				g.DrawRectangle(SystemPens.ControlDarkDark, r.Left, r.Top, r.Width, r.Height);
@@ -2450,7 +2454,7 @@ namespace Lyquidity.Controls.ExtendedListViews
 					System.Windows.Forms.ControlPaint.DrawButton(g, lp_scr+last, r.Top+2, r.Width-(r.Left+last)-3+hscrollBar.Value , r.Top+headerBuffer, ButtonState.Normal);
 				}
 			}
-		}		
+        }		
 
 		protected virtual void DrawRows(Graphics g, Rectangle r)
 		{
