@@ -2376,7 +2376,9 @@ namespace Lyquidity.Controls.ExtendedListViews
 					if (r.Left+lwidth+columns[i].Width >= r.Left+r.Width-2)
 						break;
 
-					g.DrawLine(p, r.Left+lwidth+columns[i].Width-hscrollBar.Value, r.Top+2+headerBuffer, r.Left+lwidth+columns[i].Width-hscrollBar.Value, r.Top+r.Height-2); 
+                    bool draw = true;
+                    if (columns[i].ScaleStyle == ColumnScaleStyle.Spring && i == columns.Count - 1) draw = false;
+                    if (draw) g.DrawLine(p, r.Left + lwidth + columns[i].Width - hscrollBar.Value, r.Top + 2 + headerBuffer, r.Left + lwidth + columns[i].Width - hscrollBar.Value, r.Top + r.Height - 2); 
 					lwidth += columns[i].Width;
 				}
 				
@@ -2389,72 +2391,76 @@ namespace Lyquidity.Controls.ExtendedListViews
 			}
 		}
 
-		protected virtual void DrawHeaders(Graphics g, Rectangle r)
-		{
-			// if running in XP with styles
-			if (VisualStyles)
-			{
-				DrawHeadersStyled(g, r);
-				return;
-			}
+        protected virtual void DrawHeaders(Graphics g, Rectangle r)
+        {
+            // if running in XP with styles
+            if (VisualStyles)
+            {
+                DrawHeadersStyled(g, r);
+                return;
+            }
 
-			if (headerStyle != ColumnHeaderStyle.None)
-			{
-				g.FillRectangle(new SolidBrush(SystemColors.Control), r.Left+2, r.Top+2, r.Width-2, headerBuffer);
+            if (headerStyle != ColumnHeaderStyle.None)
+            {
+                g.FillRectangle(new SolidBrush(SystemColors.Control), r.Left + 2, r.Top + 2, r.Width - 2, headerBuffer);
 
-				CalcSpringWids(r);
+                CalcSpringWids(r);
 
-				// render column headers and trailing column header
-				int last = 2;
-				int i;
+                // render column headers and trailing column header
+                int last = 2;
+                int i;
 
-				int lp_scr = r.Left-hscrollBar.Value;
-                
-				g.Clip = new Region(new Rectangle(r.Left+2, r.Top+2, r.Width-5, r.Top+headerBuffer));
-				for (i=0; i<columns.Count; i++)
-				{
-					if ((lp_scr+last+columns[i].Width > r.Left+2)
-						&& (lp_scr+last < r.Left+r.Width-2))
-					{						
-						if (headerStyle == ColumnHeaderStyle.Clickable && columns[i].Pressed)
-							System.Windows.Forms.ControlPaint.DrawButton(g, lp_scr+last, r.Top+2, columns[i].Width, r.Top+headerBuffer, ButtonState.Flat);
-						else
-							System.Windows.Forms.ControlPaint.DrawButton(g, lp_scr+last, r.Top+2, columns[i].Width, r.Top+headerBuffer, ButtonState.Normal);
-					
-						if (columns[i].Image != null)
-						{
-							g.DrawImage(columns[i].Image, new Rectangle(lp_scr+last+4, r.Top+3, 16, 16));						
-							g.DrawString(TruncatedString(columns[i].Text, columns[i].Width, 25, g), this.Font, SystemBrushes.ControlText, (float)(lp_scr+last+22), (float)(r.Top+5));
-						}
-						else
-						{
-							string sp = "";
-							if (columns[i].TextAlign == HorizontalAlignment.Left)
-								g.DrawString(TruncatedString(columns[i].Text, columns[i].Width, 0, g), this.Font, SystemBrushes.ControlText, (float)(lp_scr+last+4), (float)(r.Top+5));
-							else if (columns[i].TextAlign == HorizontalAlignment.Right)
-							{
-								sp = TruncatedString(columns[i].Text, columns[i].Width, 0, g);
-								g.DrawString(sp, this.Font, SystemBrushes.ControlText, (float)(lp_scr+last+columns[i].Width-Helpers.StringTools.MeasureDisplayStringWidth(g, sp, this.Font)-4), (float)(r.Top+5));
-							}
-							else
-							{
-								sp = TruncatedString(columns[i].Text, columns[i].Width, 0, g);
-								g.DrawString(sp, this.Font, SystemBrushes.ControlText, (float)(lp_scr+last+(columns[i].Width/2)-(Helpers.StringTools.MeasureDisplayStringWidth(g, sp, this.Font)/2)), (float)(r.Top+5));
-							}
-						}
-					}
-					last += columns[i].Width;
-				}
+                int lp_scr = r.Left - hscrollBar.Value;
 
-				// only render trailing column header if the end of the
-				// last column ends before the boundary of the listview 
-				if (!(lp_scr+last+5 > r.Left+r.Width))
-				{
-					g.Clip = new Region(new Rectangle(r.Left+2, r.Top+2, r.Width-5, r.Top+headerBuffer));
-					System.Windows.Forms.ControlPaint.DrawButton(g, lp_scr+last, r.Top+2, r.Width-(r.Left+last)-3+hscrollBar.Value , r.Top+headerBuffer, ButtonState.Normal);
-				}
-			}
+                g.Clip = new Region(new Rectangle(r.Left + 2, r.Top + 2, r.Width - 5, r.Top + headerBuffer));
+                for (i = 0; i < columns.Count; i++)
+                {
+                    int width = (columns[i].ScaleStyle == ColumnScaleStyle.Spring ? springWid - 1 : columns[i].Width);
+
+                    if ((lp_scr + last + columns[i].Width > r.Left + 2)
+                        && (lp_scr + last < r.Left + r.Width - 2))
+                    {
+
+                        if (headerStyle == ColumnHeaderStyle.Clickable && columns[i].Pressed)
+                            System.Windows.Forms.ControlPaint.DrawButton(g, lp_scr + last, r.Top + 2, width, r.Top + headerBuffer, ButtonState.Flat);
+                        else
+                            System.Windows.Forms.ControlPaint.DrawButton(g, lp_scr + last, r.Top + 2, width, r.Top + headerBuffer, ButtonState.Normal);
+
+                        if (columns[i].Image != null)
+                        {
+                            g.DrawImage(columns[i].Image, new Rectangle(lp_scr + last + 4, r.Top + 3, 16, 16));
+                            g.DrawString(TruncatedString(columns[i].Text, width, 25, g), this.Font, SystemBrushes.ControlText, (float)(lp_scr + last + 22), (float)(r.Top + 5));
+                        }
+                        else
+                        {
+                            string sp = "";
+                            if (columns[i].TextAlign == HorizontalAlignment.Left)
+                                g.DrawString(TruncatedString(columns[i].Text, width, 0, g), this.Font, SystemBrushes.ControlText, (float)(lp_scr + last + 4), (float)(r.Top + 5));
+                            else if (columns[i].TextAlign == HorizontalAlignment.Right)
+                            {
+                                sp = TruncatedString(columns[i].Text, width, 0, g);
+                                g.DrawString(sp, this.Font, SystemBrushes.ControlText, (float)(lp_scr + last + width - Helpers.StringTools.MeasureDisplayStringWidth(g, sp, this.Font) - 4), (float)(r.Top + 5));
+                            }
+                            else
+                            {
+                                sp = TruncatedString(columns[i].Text, width, 0, g);
+                                g.DrawString(sp, this.Font, SystemBrushes.ControlText, (float)(lp_scr + last + (width / 2) - (Helpers.StringTools.MeasureDisplayStringWidth(g, sp, this.Font) / 2)), (float)(r.Top + 5));
+                            }
+                        }
+                    }
+                    last += width;
+                }
+
+                // only render trailing column header if the end of the
+                // last column ends before the boundary of the listview 
+                if (!(lp_scr + last + 5 > r.Left + r.Width))
+                {
+                    g.Clip = new Region(new Rectangle(r.Left + 2, r.Top + 2, r.Width - 5, r.Top + headerBuffer));
+                    System.Windows.Forms.ControlPaint.DrawButton(g, lp_scr + last, r.Top + 2, r.Width - (r.Left + last) - 3 + hscrollBar.Value, r.Top + headerBuffer, ButtonState.Normal);
+                }
+            }
         }		
+
 
 		protected virtual void DrawRows(Graphics g, Rectangle r)
 		{

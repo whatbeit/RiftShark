@@ -172,7 +172,7 @@
             toggleColumnHeader4.Text = "Name";
             toggleColumnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             toggleColumnHeader4.Visible = true;
-            toggleColumnHeader4.Width = 220;
+            toggleColumnHeader4.Width = 250;
             toggleColumnHeader5.Hovered = false;
             toggleColumnHeader5.Image = null;
             toggleColumnHeader5.Index = 0;
@@ -193,8 +193,8 @@
             this.mPacketView.ColumnTrackColor = System.Drawing.Color.WhiteSmoke;
             this.mPacketView.ContextMenuStrip = this.mPacketItemMenu;
             this.mPacketView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mPacketView.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mPacketView.GridLineColor = System.Drawing.Color.WhiteSmoke;
+            this.mPacketView.Font = new System.Drawing.Font("Consolas", 7.5F);
+            this.mPacketView.GridLineColor = System.Drawing.Color.LightGray;
             this.mPacketView.GridLines = true;
             this.mPacketView.HeaderMenu = null;
             this.mPacketView.HideSelection = false;
