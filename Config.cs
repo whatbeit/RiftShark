@@ -8,6 +8,7 @@ namespace RiftShark
     public sealed class Config
     {
         public string PacketDescriptions = @"..\..\PacketDescriptions.xml";
+        public string Plugins = @"Plugins\";
 
         private static Config sInstance = null;
         internal static Config Instance

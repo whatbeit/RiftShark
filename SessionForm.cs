@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
@@ -46,10 +47,16 @@ namespace RiftShark
         });
 
         private string mFilename = null;
+        private List<Plugin> mPlugins = new List<Plugin>();
 
         public SessionForm()
         {
             InitializeComponent();
+        }
+
+        public void CreatePlugins(List<Type> pPluginTypes)
+        {
+            pPluginTypes.ForEach(t => mPlugins.Add((Plugin)t.InvokeMember("", BindingFlags.CreateInstance, null, null, new object[] { })));
         }
 
         public void ProgressUpdate()
@@ -189,6 +196,8 @@ namespace RiftShark
 
             mPacketView.EndUpdate();
             mPacketView.AdjustScrollbars();
+
+            if (!pRefreshing) mPlugins.ForEach(p => p.OnPacket(pPacket));
         }
 
         public sealed class FieldNodeTag
@@ -389,6 +398,7 @@ namespace RiftShark
                     RiftPacket packet;
                     int sizeOfPacket;
                     packetReader.ReadPacket(out packet, out sizeOfPacket);
+                    packet.Raw = buffer;
                     AddPacket(packet);
 
                     int newPercent = (int)((stream.Position * 100) / stream.Length);

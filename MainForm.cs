@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -16,12 +17,31 @@ namespace RiftShark
     public partial class MainForm : Form
     {
         private bool mClosing = false;
+        private List<Type> mPluginTypes = new List<Type>();
 
         public MainForm(string[] pArgs)
         {
             InitializeComponent();
             Text = "RiftShark " + Program.AssemblyVersion;
+            LoadPlugins();
             foreach (string fileName in pArgs) OpenFile(fileName);
+        }
+
+        private void LoadPlugins()
+        {
+            if (!Directory.Exists(Config.Instance.Plugins)) Directory.CreateDirectory(Config.Instance.Plugins);
+            string[] plugins = Directory.GetFiles(Config.Instance.Plugins, "*.dll", SearchOption.TopDirectoryOnly);
+            foreach (string plugin in plugins)
+            {
+                Assembly assembly = Assembly.LoadFile(Path.GetFullPath(plugin));
+                foreach (Type type in assembly.GetTypes())
+                {
+                    if (!type.IsSubclassOf(typeof(Plugin))) continue;
+                    if (!type.IsClass || type.IsAbstract) continue;
+                    if (type.GetConstructor(Type.EmptyTypes) == null) continue;
+                    mPluginTypes.Add(type);
+                }
+            }
         }
 
         private void MainForm_FormClosing(object pSender, FormClosingEventArgs pArgs)
@@ -33,6 +53,7 @@ namespace RiftShark
         {
             SessionForm session = new SessionForm();
             session.Show(mDockPanel, DockState.Document);
+            session.CreatePlugins(mPluginTypes);
             return session;
         }
 

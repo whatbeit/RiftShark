@@ -842,13 +842,13 @@ namespace Lyquidity.Controls.ExtendedListViews
         public override void AdjustScrollbars()
         {
             // ReportStatus();
-
+            CalcSpringWids(base.ClientRectangle);
             if (nodes.Count > 0 || columns.Count > 0 && !colScaleMode)
             {
                 allColsWidth = 0;
                 for (int i = 0; i < columns.Count; i++)
                 {
-                    allColsWidth += columns[i].Width;
+                    allColsWidth += (columns[i].ScaleStyle == ColumnScaleStyle.Spring ? springWid : columns[i].Width);
                 }
 
                 allRowsHeight = itemheight * this.virtualParent.GetVisibleNodeCount;
@@ -878,11 +878,11 @@ namespace Lyquidity.Controls.ExtendedListViews
 
                 hscrollBar.Left = this.ClientRectangle.Left + 2;
                 hscrollBar.Top = this.ClientRectangle.Top + this.ClientRectangle.Height - hscrollBar.Height - 2;
-                hscrollBar.Width = this.ClientRectangle.Width - vsize - 4;
+                hscrollBar.Width = this.ClientRectangle.Width;
                 hscrollBar.Maximum = allColsWidth;
-                hscrollBar.LargeChange = (this.ClientRectangle.Width - vsize - 4 > 0 ? this.ClientRectangle.Width - vsize - 4 : 0);
+                hscrollBar.LargeChange = (hscrollBar.Width > 0 ? hscrollBar.Width : 0);
 
-                if (allColsWidth > this.ClientRectangle.Width - 4 - vsize)
+                if (hscrollBar.Maximum > hscrollBar.Width)
                 {
                     hscrollBar.Show();
                     hsize = hscrollBar.Height;
@@ -896,7 +896,6 @@ namespace Lyquidity.Controls.ExtendedListViews
             }
 
         }
-
 
         #endregion
 
@@ -1222,22 +1221,12 @@ namespace Lyquidity.Controls.ExtendedListViews
 
         private void RenderPlus(Graphics g, int x, int y, int w, int h, TreeListNode node)
         {
-            if (VisualStyles)
-            {
-                if (node.IsExpanded)
-                    g.DrawImage(bmpMinus, x, y);
-                else
-                    g.DrawImage(bmpPlus, x, y);
-            }
-            else
-            {
-                g.DrawRectangle(new Pen(SystemBrushes.ControlDark), x, y, w, h);
-                g.FillRectangle(new SolidBrush(Color.White), x + 1, y + 1, w - 1, h - 1);
-                g.DrawLine(new Pen(new SolidBrush(Color.Black)), x + 2, y + 4, x + w - 2, y + 4);
+            g.DrawRectangle(new Pen(SystemBrushes.ControlDark), x, y, w, h);
+            g.FillRectangle(new SolidBrush(Color.White), x + 1, y + 1, w - 1, h - 1);
+            g.DrawLine(new Pen(new SolidBrush(Color.Black)), x + 2, y + 4, x + w - 2, y + 4);
 
-                if (!node.IsExpanded)
-                    g.DrawLine(new Pen(new SolidBrush(Color.Black)), x + 4, y + 2, x + 4, y + h - 2);
-            }
+            if (!node.IsExpanded)
+                g.DrawLine(new Pen(new SolidBrush(Color.Black)), x + 4, y + 2, x + 4, y + h - 2);
 
             pmRects.Add(new Rectangle(x, y, w, h), node);
         }

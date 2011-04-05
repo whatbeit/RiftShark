@@ -957,8 +957,6 @@ namespace Lyquidity.Controls.ExtendedListViews
 		protected SelectedContainerListViewItemCollection selectedItems = null;
 		protected ArrayList selectedIndices = null;
 
-		protected bool visualStyles = false;
-
 		protected Lyquidity.Controls.ExtendedListViews.ContainerListViewItem focusedItem;	
 		protected int focusedIndex = -1;
 		protected bool isFocused = false;
@@ -1386,32 +1384,6 @@ namespace Lyquidity.Controls.ExtendedListViews
 		{
 			get { return multiSelect; }
 			set { multiSelect = value; }
-		}
-
-		[
-		Category("Appearance"),
-		Description("Specifies wether to use WindowsXP visual styles on this control."),
-		DefaultValue(false)
-		]
-		public bool	VisualStyles
-		{
-			get 
-			{
-				bool val;
-				try
-				{
-					val = visualStyles && Lyquidity.Controls.ExtendedListViews.uxTheme.Wrapper.IsAppThemed();
-				}
-				catch
-				{
-					val = visualStyles;
-				}
-				return val;
-			}
-			set
-			{
-				visualStyles = value;				
-			}
 		}
 
 		[Browsable(false)]
@@ -2292,31 +2264,26 @@ namespace Lyquidity.Controls.ExtendedListViews
 		protected int springWid = 0;
 		protected int springCnt = 0;
 
-		protected void CalcSpringWids(Rectangle r)
-		{
-			springCnt = 0;
-			springWid = (r.Width-borderWid*2);
-			for (int i=0; i<columns.Count; i++)
-			{
-				if (columns[i].ScaleStyle == ColumnScaleStyle.Slide)
-					springWid -= columns[i].Width;
-				else
-					springCnt++;
-			}
+        protected void CalcSpringWids(Rectangle r)
+        {
+            springCnt = 0;
+            springWid = (r.Width - borderWid * 2);
+            for (int i = 0; i < columns.Count; i++)
+            {
+                if (columns[i].ScaleStyle == ColumnScaleStyle.Slide)
+                    springWid -= columns[i].Width;
+                else
+                    springCnt++;
+            }
 
-			if (springCnt > 0 && springWid > 0)
-				springWid = springWid/springCnt;
-		}
+            if (springCnt > 0 && springWid > 0)
+                springWid = springWid / springCnt;
+
+            springWid = Math.Max(springWid, columns[columns.Count - 1].Width);
+        }
 
 		protected virtual void DrawBorder(Graphics g, Rectangle r)
 		{
-			// if running in XP with styles
-			if (VisualStyles)
-			{
-				DrawBorderStyled(g, r);
-				return;
-			}
-
 			if (borderstyle == BorderStyle.FixedSingle)
 			{
 				g.DrawRectangle(SystemPens.ControlDarkDark, r.Left, r.Top, r.Width, r.Height);
@@ -2370,17 +2337,18 @@ namespace Lyquidity.Controls.ExtendedListViews
 				Pen p = new Pen(new SolidBrush(gridLineColor), 1.0f);
 				lwidth = lheight = 1;
 
-				// vertical
-				for (i=0; i<columns.Count; i++)
-				{
-					if (r.Left+lwidth+columns[i].Width >= r.Left+r.Width-2)
-						break;
+                // vertical
+                for (i = 0; i < columns.Count; i++)
+                {
+                    int iColWidth = (columns[i].ScaleStyle == ColumnScaleStyle.Spring ? springWid : columns[i].Width); // BMS 2003-05-24
 
-                    bool draw = true;
-                    if (columns[i].ScaleStyle == ColumnScaleStyle.Spring && i == columns.Count - 1) draw = false;
-                    if (draw) g.DrawLine(p, r.Left + lwidth + columns[i].Width - hscrollBar.Value, r.Top + 2 + headerBuffer, r.Left + lwidth + columns[i].Width - hscrollBar.Value, r.Top + r.Height - 2); 
-					lwidth += columns[i].Width;
-				}
+                    if (r.Left + lwidth + iColWidth >= r.Left + r.Width - 2)
+                        break;
+
+                    if (!(columns[i].ScaleStyle == ColumnScaleStyle.Spring && i == columns.Count - 1))
+                        g.DrawLine(p, r.Left + lwidth + iColWidth - hscrollBar.Value, r.Top + 2 + headerBuffer, r.Left + lwidth + iColWidth - hscrollBar.Value, r.Top + r.Height - 2);
+                    lwidth += iColWidth;
+                }
 				
 				// horizontal
 				for (i=0; i<items.Count; i++)
@@ -2393,13 +2361,6 @@ namespace Lyquidity.Controls.ExtendedListViews
 
         protected virtual void DrawHeaders(Graphics g, Rectangle r)
         {
-            // if running in XP with styles
-            if (VisualStyles)
-            {
-                DrawHeadersStyled(g, r);
-                return;
-            }
-
             if (headerStyle != ColumnHeaderStyle.None)
             {
                 g.FillRectangle(new SolidBrush(SystemColors.Control), r.Left + 2, r.Top + 2, r.Width - 2, headerBuffer);
@@ -2601,99 +2562,6 @@ namespace Lyquidity.Controls.ExtendedListViews
 				g.FillRectangle(SystemBrushes.Control, r.Width-vscrollBar.Width-borderWid, r.Height-hscrollBar.Height-borderWid, vscrollBar.Width, hscrollBar.Height);
 			}
 		}
-		// visual styles rendering functions
-		protected virtual void DrawBorderStyled(Graphics g, Rectangle r)
-		{
-			Region oldreg = g.Clip;
-			g.Clip = new Region(r);
-			g.DrawRectangle(new Pen(SystemBrushes.InactiveBorder), r.Left, r.Top, r.Width-1, r.Height-1);
-			g.DrawRectangle(new Pen(BackColor), r.Left+1, r.Top+1, r.Width-3, r.Height-3);
-			g.Clip = oldreg;
-		}
-
-		protected virtual void DrawHeadersStyled(Graphics g, Rectangle r)
-		{
-			if (headerStyle != ColumnHeaderStyle.None)
-			{
-				int colwid = 0;
-				int i;
-				int last = 2;
-				CalcSpringWids(r);
-
-				int lp_scr = r.Left-hscrollBar.Value;
-				int lp = r.Left;
-				int tp = r.Top+2;
-
-				System.IntPtr hdc = g.GetHdc();
-				try
-				{
-					// render column headers and trailing column header					
-					for (i=0; i<columns.Count; i++)
-					{
-						colwid = (columns[i].ScaleStyle == ColumnScaleStyle.Spring ? springWid : columns[i].Width);
-						if (headerStyle == ColumnHeaderStyle.Clickable && columns[i].Pressed)
-							Lyquidity.Controls.ExtendedListViews.uxTheme.Wrapper.DrawBackground("HEADER", "HEADERITEM", "PRESSED", hdc,
-								lp_scr+last, tp, 
-								colwid, headerBuffer,
-								lp, tp, r.Width-6, headerBuffer);
-						else if (headerStyle != ColumnHeaderStyle.None && columns[i].Hovered)
-							Lyquidity.Controls.ExtendedListViews.uxTheme.Wrapper.DrawBackground("HEADER", "HEADERITEM", "HOT", hdc,
-								lp_scr+last, tp, 
-								colwid, headerBuffer,  
-								lp, tp, r.Width-6, headerBuffer);
-						else
-							Lyquidity.Controls.ExtendedListViews.uxTheme.Wrapper.DrawBackground("HEADER", "HEADERITEM", "NORMAL", hdc,
-								lp_scr+last, tp, 
-								colwid, headerBuffer,  
-								lp, tp, r.Width-6, headerBuffer);
-						last += colwid;
-					}
-					// only render trailing column header if the end of the
-					// last column ends before the boundary of the listview 
-					if (!(r.Left+last+2-hscrollBar.Value > r.Left+r.Width))
-					{
-						Lyquidity.Controls.ExtendedListViews.uxTheme.Wrapper.DrawBackground("HEADER", "HEADERITEM", "NORMAL", hdc, lp_scr+last, tp, r.Width-last-2+hscrollBar.Value, headerBuffer,  r.Left, /* r.Top BMS 2003/05/22 */ tp, r.Width, headerBuffer);
-					}
-				}
-				catch
-				{
-				}
-				finally
-				{
-					g.ReleaseHdc(hdc);
-				}
-
-				last = 1;
-				for (i=0; i<columns.Count; i++)
-				{
-					colwid = (columns[i].ScaleStyle == ColumnScaleStyle.Spring ? springWid : columns[i].Width);
-					g.Clip = new Region(new Rectangle(lp_scr+last+2, tp, (r.Left+last+colwid > r.Left+r.Width ? (r.Width - (r.Left+last))-4 : colwid-2)+hscrollBar.Value, r.Top+headerBuffer));
-					if (columns[i].Image != null)
-					{
-						g.DrawImage(columns[i].Image, new Rectangle(lp_scr+last+4, r.Top+3, 16, 16));
-						g.DrawString(TruncatedString(columns[i].Text, colwid, 25, g), this.Font, SystemBrushes.ControlText, (float)(r.Left+last+22-hscrollBar.Value), (float)(r.Top+5));
-					}
-					else
-					{
-						string sp = TruncatedString(columns[i].Text, colwid, 0, g);
-						if (columns[i].TextAlign == HorizontalAlignment.Left)
-						{
-							g.DrawString(TruncatedString(columns[i].Text, colwid, 0, g), this.Font, SystemBrushes.ControlText, (float)(last+4-hscrollBar.Value), (float)(r.Top+5));
-						}
-						else if (columns[i].TextAlign == HorizontalAlignment.Right)
-						{
-							g.DrawString(sp, this.Font, SystemBrushes.ControlText, (float)(last+colwid-Helpers.StringTools.MeasureDisplayStringWidth(g, sp, this.Font)-4-hscrollBar.Value), (float)(r.Top+5));
-						}
-						else
-						{
-							g.DrawString(sp, this.Font, SystemBrushes.ControlText, (float)(last+(colwid/2)-(Helpers.StringTools.MeasureDisplayStringWidth(g, sp, this.Font)/2)-hscrollBar.Value), (float)(r.Top+5));
-						}
-					}
-					last += colwid;
-				}
-			}
-		}
-
 		#endregion
 	}
 	#endregion

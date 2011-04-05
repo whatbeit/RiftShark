@@ -29,54 +29,54 @@ namespace RiftShark
             return pField != null;
         }
 
-        public void AddBooleanField(int pIndex, bool pValue)
+        internal void AddBooleanField(int pIndex, bool pValue)
         {
             RiftPacketField field = new RiftPacketField(pValue ? ERiftPacketFieldType.True : ERiftPacketFieldType.False, pIndex);
             mFields.Add(field);
         }
-        public void AddUnsigned7BitEncodedField(int pIndex, long pValue)
+        internal void AddUnsigned7BitEncodedField(int pIndex, long pValue)
         {
             RiftPacketField field = new RiftPacketField(ERiftPacketFieldType.Unsigned7BitEncoded, pIndex);
             field.Value = new RiftPacketFieldValue(ERiftPacketFieldType.Unsigned7BitEncoded, pValue);
             mFields.Add(field);
         }
-        public void AddSigned7BitEncodedField(int pIndex, long pValue)
+        internal void AddSigned7BitEncodedField(int pIndex, long pValue)
         {
             RiftPacketField field = new RiftPacketField(ERiftPacketFieldType.Signed7BitEncoded, pIndex);
             field.Value = new RiftPacketFieldValue(ERiftPacketFieldType.Signed7BitEncoded, pValue);
             mFields.Add(field);
         }
-        public void AddRaw4BytesField(int pIndex, byte[] pValue)
+        internal void AddRaw4BytesField(int pIndex, byte[] pValue)
         {
             RiftPacketField field = new RiftPacketField(ERiftPacketFieldType.Raw4Bytes, pIndex);
             field.Value = new RiftPacketFieldValue(ERiftPacketFieldType.Raw4Bytes, pValue);
             mFields.Add(field);
         }
-        public void AddRaw8BytesField(int pIndex, byte[] pValue)
+        internal void AddRaw8BytesField(int pIndex, byte[] pValue)
         {
             RiftPacketField field = new RiftPacketField(ERiftPacketFieldType.Raw8Bytes, pIndex);
             field.Value = new RiftPacketFieldValue(ERiftPacketFieldType.Raw8Bytes, pValue);
             mFields.Add(field);
         }
-        public void AddByteArrayField(int pIndex, byte[] pValue)
+        internal void AddByteArrayField(int pIndex, byte[] pValue)
         {
             RiftPacketField field = new RiftPacketField(ERiftPacketFieldType.ByteArray, pIndex);
             field.Value = new RiftPacketFieldValue(ERiftPacketFieldType.ByteArray, pValue);
             mFields.Add(field);
         }
-        public void AddPacketField(int pIndex, RiftPacket pValue)
+        internal void AddPacketField(int pIndex, RiftPacket pValue)
         {
             RiftPacketField field = new RiftPacketField(ERiftPacketFieldType.Packet, pIndex);
             field.Value = new RiftPacketFieldValue(ERiftPacketFieldType.Packet, pValue);
             mFields.Add(field);
         }
-        public void AddListField(int pIndex, RiftPacketFieldValueList pValue)
+        internal void AddListField(int pIndex, RiftPacketFieldValueList pValue)
         {
             RiftPacketField field = new RiftPacketField(ERiftPacketFieldType.List, pIndex);
             field.Value = new RiftPacketFieldValue(ERiftPacketFieldType.List, pValue);
             mFields.Add(field);
         }
-        public void AddDictionaryField(int pIndex, RiftPacketFieldValueDictionary pValue)
+        internal void AddDictionaryField(int pIndex, RiftPacketFieldValueDictionary pValue)
         {
             RiftPacketField field = new RiftPacketField(ERiftPacketFieldType.Dictionary, pIndex);
             field.Value = new RiftPacketFieldValue(ERiftPacketFieldType.Dictionary, pValue);

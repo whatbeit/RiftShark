@@ -143,7 +143,7 @@
             toggleColumnHeader1.Text = "Timestamp";
             toggleColumnHeader1.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             toggleColumnHeader1.Visible = true;
-            toggleColumnHeader1.Width = 100;
+            toggleColumnHeader1.Width = 120;
             toggleColumnHeader2.Hovered = false;
             toggleColumnHeader2.Image = null;
             toggleColumnHeader2.Index = 0;
@@ -182,7 +182,7 @@
             toggleColumnHeader5.Text = "Value";
             toggleColumnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             toggleColumnHeader5.Visible = true;
-            toggleColumnHeader5.Width = 220;
+            toggleColumnHeader5.Width = 200;
             this.mPacketView.Columns.AddRange(new Lyquidity.Controls.ExtendedListViews.ToggleColumnHeader[] {
             toggleColumnHeader1,
             toggleColumnHeader2,
@@ -193,7 +193,7 @@
             this.mPacketView.ColumnTrackColor = System.Drawing.Color.WhiteSmoke;
             this.mPacketView.ContextMenuStrip = this.mPacketItemMenu;
             this.mPacketView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mPacketView.Font = new System.Drawing.Font("Consolas", 7.5F);
+            this.mPacketView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mPacketView.GridLineColor = System.Drawing.Color.LightGray;
             this.mPacketView.GridLines = true;
             this.mPacketView.HeaderMenu = null;
@@ -208,7 +208,7 @@
             this.mPacketView.RowTrackColor = System.Drawing.Color.WhiteSmoke;
             this.mPacketView.ShowLines = true;
             this.mPacketView.ShowRootLines = true;
-            this.mPacketView.Size = new System.Drawing.Size(795, 441);
+            this.mPacketView.Size = new System.Drawing.Size(804, 441);
             this.mPacketView.SmallImageList = null;
             this.mPacketView.StateImageList = null;
             this.mPacketView.TabIndex = 8;
@@ -252,7 +252,7 @@
             this.mStatusProgressStateLabel});
             this.mStatusStrip.Location = new System.Drawing.Point(0, 556);
             this.mStatusStrip.Name = "mStatusStrip";
-            this.mStatusStrip.Size = new System.Drawing.Size(795, 22);
+            this.mStatusStrip.Size = new System.Drawing.Size(804, 22);
             this.mStatusStrip.SizingGrip = false;
             this.mStatusStrip.TabIndex = 9;
             this.mStatusStrip.Resize += new System.EventHandler(this.mStatusStrip_Resize);
@@ -288,7 +288,7 @@
             this.mHints.Location = new System.Drawing.Point(0, 0);
             this.mHints.Name = "mHints";
             this.mHints.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.mHints.Size = new System.Drawing.Size(290, 111);
+            this.mHints.Size = new System.Drawing.Size(293, 111);
             this.mHints.TabIndex = 11;
             this.mHints.ToolbarVisible = false;
             // 
@@ -306,8 +306,8 @@
             // mHintsSearchSplit.Panel2
             // 
             this.mHintsSearchSplit.Panel2.Controls.Add(this.mSearchTabs);
-            this.mHintsSearchSplit.Size = new System.Drawing.Size(795, 115);
-            this.mHintsSearchSplit.SplitterDistance = 294;
+            this.mHintsSearchSplit.Size = new System.Drawing.Size(804, 115);
+            this.mHintsSearchSplit.SplitterDistance = 297;
             this.mHintsSearchSplit.TabIndex = 13;
             // 
             // mSearchTabs
@@ -318,7 +318,7 @@
             this.mSearchTabs.Location = new System.Drawing.Point(0, 0);
             this.mSearchTabs.Name = "mSearchTabs";
             this.mSearchTabs.SelectedIndex = 0;
-            this.mSearchTabs.Size = new System.Drawing.Size(493, 111);
+            this.mSearchTabs.Size = new System.Drawing.Size(499, 111);
             this.mSearchTabs.TabIndex = 0;
             // 
             // mOpcodeSearchTab
@@ -328,7 +328,7 @@
             this.mOpcodeSearchTab.Location = new System.Drawing.Point(4, 22);
             this.mOpcodeSearchTab.Name = "mOpcodeSearchTab";
             this.mOpcodeSearchTab.Padding = new System.Windows.Forms.Padding(3);
-            this.mOpcodeSearchTab.Size = new System.Drawing.Size(485, 85);
+            this.mOpcodeSearchTab.Size = new System.Drawing.Size(491, 85);
             this.mOpcodeSearchTab.TabIndex = 0;
             this.mOpcodeSearchTab.Text = "Opcode Search";
             this.mOpcodeSearchTab.UseVisualStyleBackColor = true;
@@ -339,7 +339,7 @@
             this.mOpcodeSearchButton.Enabled = false;
             this.mOpcodeSearchButton.Location = new System.Drawing.Point(3, 59);
             this.mOpcodeSearchButton.Name = "mOpcodeSearchButton";
-            this.mOpcodeSearchButton.Size = new System.Drawing.Size(479, 23);
+            this.mOpcodeSearchButton.Size = new System.Drawing.Size(485, 23);
             this.mOpcodeSearchButton.TabIndex = 6;
             this.mOpcodeSearchButton.Text = "Search";
             this.mOpcodeSearchButton.UseVisualStyleBackColor = true;
@@ -353,7 +353,7 @@
             this.mOpcodeSearchCombo.FormattingEnabled = true;
             this.mOpcodeSearchCombo.Location = new System.Drawing.Point(3, 3);
             this.mOpcodeSearchCombo.Name = "mOpcodeSearchCombo";
-            this.mOpcodeSearchCombo.Size = new System.Drawing.Size(479, 23);
+            this.mOpcodeSearchCombo.Size = new System.Drawing.Size(485, 23);
             this.mOpcodeSearchCombo.TabIndex = 5;
             this.mOpcodeSearchCombo.SelectedIndexChanged += new System.EventHandler(this.mOpcodeSearchCombo_SelectedIndexChanged);
             // 
@@ -363,7 +363,7 @@
             this.mFieldSearchTab.Location = new System.Drawing.Point(4, 22);
             this.mFieldSearchTab.Name = "mFieldSearchTab";
             this.mFieldSearchTab.Padding = new System.Windows.Forms.Padding(3);
-            this.mFieldSearchTab.Size = new System.Drawing.Size(485, 85);
+            this.mFieldSearchTab.Size = new System.Drawing.Size(491, 85);
             this.mFieldSearchTab.TabIndex = 1;
             this.mFieldSearchTab.Text = "Field Search";
             this.mFieldSearchTab.UseVisualStyleBackColor = true;
@@ -380,7 +380,7 @@
             this.mFieldSearchTabs.Location = new System.Drawing.Point(3, 3);
             this.mFieldSearchTabs.Name = "mFieldSearchTabs";
             this.mFieldSearchTabs.SelectedIndex = 0;
-            this.mFieldSearchTabs.Size = new System.Drawing.Size(479, 79);
+            this.mFieldSearchTabs.Size = new System.Drawing.Size(485, 79);
             this.mFieldSearchTabs.TabIndex = 0;
             // 
             // mFieldSearchBooleanTab
@@ -391,7 +391,7 @@
             this.mFieldSearchBooleanTab.Location = new System.Drawing.Point(4, 22);
             this.mFieldSearchBooleanTab.Name = "mFieldSearchBooleanTab";
             this.mFieldSearchBooleanTab.Padding = new System.Windows.Forms.Padding(3);
-            this.mFieldSearchBooleanTab.Size = new System.Drawing.Size(471, 53);
+            this.mFieldSearchBooleanTab.Size = new System.Drawing.Size(477, 53);
             this.mFieldSearchBooleanTab.TabIndex = 0;
             this.mFieldSearchBooleanTab.Text = "Boolean";
             this.mFieldSearchBooleanTab.UseVisualStyleBackColor = true;
@@ -423,7 +423,7 @@
             this.mFieldSearchBooleanButton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.mFieldSearchBooleanButton.Location = new System.Drawing.Point(3, 27);
             this.mFieldSearchBooleanButton.Name = "mFieldSearchBooleanButton";
-            this.mFieldSearchBooleanButton.Size = new System.Drawing.Size(465, 23);
+            this.mFieldSearchBooleanButton.Size = new System.Drawing.Size(471, 23);
             this.mFieldSearchBooleanButton.TabIndex = 7;
             this.mFieldSearchBooleanButton.Text = "Search";
             this.mFieldSearchBooleanButton.UseVisualStyleBackColor = true;
@@ -436,7 +436,7 @@
             this.mFieldSearchUnsignedTab.Location = new System.Drawing.Point(4, 22);
             this.mFieldSearchUnsignedTab.Name = "mFieldSearchUnsignedTab";
             this.mFieldSearchUnsignedTab.Padding = new System.Windows.Forms.Padding(3);
-            this.mFieldSearchUnsignedTab.Size = new System.Drawing.Size(471, 53);
+            this.mFieldSearchUnsignedTab.Size = new System.Drawing.Size(477, 53);
             this.mFieldSearchUnsignedTab.TabIndex = 1;
             this.mFieldSearchUnsignedTab.Text = "Unsigned";
             this.mFieldSearchUnsignedTab.UseVisualStyleBackColor = true;
@@ -472,7 +472,7 @@
             this.mFieldSearchSignedTab.Location = new System.Drawing.Point(4, 22);
             this.mFieldSearchSignedTab.Name = "mFieldSearchSignedTab";
             this.mFieldSearchSignedTab.Padding = new System.Windows.Forms.Padding(3);
-            this.mFieldSearchSignedTab.Size = new System.Drawing.Size(471, 53);
+            this.mFieldSearchSignedTab.Size = new System.Drawing.Size(477, 53);
             this.mFieldSearchSignedTab.TabIndex = 2;
             this.mFieldSearchSignedTab.Text = "Signed";
             this.mFieldSearchSignedTab.UseVisualStyleBackColor = true;
@@ -513,7 +513,7 @@
             this.mFieldSearchRaw4BytesTab.Location = new System.Drawing.Point(4, 22);
             this.mFieldSearchRaw4BytesTab.Name = "mFieldSearchRaw4BytesTab";
             this.mFieldSearchRaw4BytesTab.Padding = new System.Windows.Forms.Padding(3);
-            this.mFieldSearchRaw4BytesTab.Size = new System.Drawing.Size(471, 53);
+            this.mFieldSearchRaw4BytesTab.Size = new System.Drawing.Size(477, 53);
             this.mFieldSearchRaw4BytesTab.TabIndex = 3;
             this.mFieldSearchRaw4BytesTab.Text = "Raw 4 Bytes";
             this.mFieldSearchRaw4BytesTab.UseVisualStyleBackColor = true;
@@ -523,7 +523,7 @@
             this.mFieldSearchRaw4BytesBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.mFieldSearchRaw4BytesBox.Location = new System.Drawing.Point(3, 3);
             this.mFieldSearchRaw4BytesBox.Name = "mFieldSearchRaw4BytesBox";
-            this.mFieldSearchRaw4BytesBox.Size = new System.Drawing.Size(465, 20);
+            this.mFieldSearchRaw4BytesBox.Size = new System.Drawing.Size(471, 20);
             this.mFieldSearchRaw4BytesBox.TabIndex = 14;
             // 
             // mFieldSearchRaw4BytesButton
@@ -531,7 +531,7 @@
             this.mFieldSearchRaw4BytesButton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.mFieldSearchRaw4BytesButton.Location = new System.Drawing.Point(3, 27);
             this.mFieldSearchRaw4BytesButton.Name = "mFieldSearchRaw4BytesButton";
-            this.mFieldSearchRaw4BytesButton.Size = new System.Drawing.Size(465, 23);
+            this.mFieldSearchRaw4BytesButton.Size = new System.Drawing.Size(471, 23);
             this.mFieldSearchRaw4BytesButton.TabIndex = 13;
             this.mFieldSearchRaw4BytesButton.Text = "Search";
             this.mFieldSearchRaw4BytesButton.UseVisualStyleBackColor = true;
@@ -544,7 +544,7 @@
             this.mFieldSearchRaw8BytesTab.Location = new System.Drawing.Point(4, 22);
             this.mFieldSearchRaw8BytesTab.Name = "mFieldSearchRaw8BytesTab";
             this.mFieldSearchRaw8BytesTab.Padding = new System.Windows.Forms.Padding(3);
-            this.mFieldSearchRaw8BytesTab.Size = new System.Drawing.Size(471, 53);
+            this.mFieldSearchRaw8BytesTab.Size = new System.Drawing.Size(477, 53);
             this.mFieldSearchRaw8BytesTab.TabIndex = 4;
             this.mFieldSearchRaw8BytesTab.Text = "Raw 8 Bytes";
             this.mFieldSearchRaw8BytesTab.UseVisualStyleBackColor = true;
@@ -554,7 +554,7 @@
             this.mFieldSearchRaw8BytesBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.mFieldSearchRaw8BytesBox.Location = new System.Drawing.Point(3, 3);
             this.mFieldSearchRaw8BytesBox.Name = "mFieldSearchRaw8BytesBox";
-            this.mFieldSearchRaw8BytesBox.Size = new System.Drawing.Size(465, 20);
+            this.mFieldSearchRaw8BytesBox.Size = new System.Drawing.Size(471, 20);
             this.mFieldSearchRaw8BytesBox.TabIndex = 16;
             // 
             // mFieldSearchRaw8BytesButton
@@ -562,7 +562,7 @@
             this.mFieldSearchRaw8BytesButton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.mFieldSearchRaw8BytesButton.Location = new System.Drawing.Point(3, 27);
             this.mFieldSearchRaw8BytesButton.Name = "mFieldSearchRaw8BytesButton";
-            this.mFieldSearchRaw8BytesButton.Size = new System.Drawing.Size(465, 23);
+            this.mFieldSearchRaw8BytesButton.Size = new System.Drawing.Size(471, 23);
             this.mFieldSearchRaw8BytesButton.TabIndex = 15;
             this.mFieldSearchRaw8BytesButton.Text = "Search";
             this.mFieldSearchRaw8BytesButton.UseVisualStyleBackColor = true;
@@ -575,7 +575,7 @@
             this.mFieldSearchByteArrayTab.Location = new System.Drawing.Point(4, 22);
             this.mFieldSearchByteArrayTab.Name = "mFieldSearchByteArrayTab";
             this.mFieldSearchByteArrayTab.Padding = new System.Windows.Forms.Padding(3);
-            this.mFieldSearchByteArrayTab.Size = new System.Drawing.Size(471, 53);
+            this.mFieldSearchByteArrayTab.Size = new System.Drawing.Size(477, 53);
             this.mFieldSearchByteArrayTab.TabIndex = 5;
             this.mFieldSearchByteArrayTab.Text = "Byte Array";
             this.mFieldSearchByteArrayTab.UseVisualStyleBackColor = true;
@@ -585,7 +585,7 @@
             this.mFieldSearchByteArrayBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.mFieldSearchByteArrayBox.Location = new System.Drawing.Point(3, 3);
             this.mFieldSearchByteArrayBox.Name = "mFieldSearchByteArrayBox";
-            this.mFieldSearchByteArrayBox.Size = new System.Drawing.Size(465, 20);
+            this.mFieldSearchByteArrayBox.Size = new System.Drawing.Size(471, 20);
             this.mFieldSearchByteArrayBox.TabIndex = 18;
             // 
             // mFieldSearchByteArrayButton
@@ -593,7 +593,7 @@
             this.mFieldSearchByteArrayButton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.mFieldSearchByteArrayButton.Location = new System.Drawing.Point(3, 27);
             this.mFieldSearchByteArrayButton.Name = "mFieldSearchByteArrayButton";
-            this.mFieldSearchByteArrayButton.Size = new System.Drawing.Size(465, 23);
+            this.mFieldSearchByteArrayButton.Size = new System.Drawing.Size(471, 23);
             this.mFieldSearchByteArrayButton.TabIndex = 17;
             this.mFieldSearchByteArrayButton.Text = "Search";
             this.mFieldSearchByteArrayButton.UseVisualStyleBackColor = true;
@@ -603,7 +603,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(795, 578);
+            this.ClientSize = new System.Drawing.Size(804, 578);
             this.Controls.Add(this.mPacketView);
             this.Controls.Add(this.mHintsSearchSplit);
             this.Controls.Add(this.mStatusStrip);

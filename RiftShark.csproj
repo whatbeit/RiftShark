@@ -163,7 +163,6 @@
     <Compile Include="ExtendedListViews\TreeListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ExtendedListViews\uxTheme\Wrapper.cs" />
     <Compile Include="HintByteArray.cs" />
     <Compile Include="HintRaw4Bytes.cs" />
     <Compile Include="HintRaw8Bytes.cs" />
@@ -176,6 +175,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PacketDescriptions.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="RiftPacket.cs" />
     <Compile Include="RiftPacketField.cs" />
     <Compile Include="RiftPacketFieldValue.cs" />
